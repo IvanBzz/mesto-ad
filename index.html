@@ -51,6 +51,7 @@
                 placeholder="Имя"
                 minlength="2"
                 maxlength="40"
+                pattern="[A-Za-zА-Яа-яЁё\\-\\s]+"
                 required
               />
               <span class="popup__error user-name-error"></span>
@@ -68,7 +69,11 @@
               />
               <span class="popup__error user-description-error"></span>
             </label>
-            <button type="submit" class="button popup__button">
+            <button
+              type="submit"
+              class="button popup__button popup__button_disabled"
+              disabled
+            >
               Сохранить
             </button>
           </form>
@@ -87,8 +92,9 @@
                 id="place-name"
                 class="popup__input popup__input_type_card-name"
                 placeholder="Название"
-                minlength="1"
+                minlength="2"
                 maxlength="30"
+                pattern="[A-Za-zА-Яа-яЁё\\-\\s]+"
                 required
               />
               <span class="popup__error place-name-error"></span>
@@ -104,7 +110,11 @@
               />
               <span class="popup__error place-link-error"></span>
             </label>
-            <button type="submit" class="button popup__button">
+            <button
+              type="submit"
+              class="button popup__button popup__button_disabled"
+              disabled
+            >
               Создать
             </button>
           </form>
@@ -147,7 +157,11 @@
               />
               <span class="popup__error user-avatar-error"></span>
             </label>
-            <button type="submit" class="button popup__button">
+            <button
+              type="submit"
+              class="button popup__button popup__button_disabled"
+              disabled
+            >
               Сохранить
             </button>
           </form>

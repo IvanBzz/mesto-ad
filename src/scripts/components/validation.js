@@ -1,3 +1,18 @@
+const invalidNameMessage =
+  "Разрешены только латинские и кириллические буквы, пробелы и дефис";
+
+const setInputCustomValidity = (inputElement) => {
+  const isNameField =
+    inputElement.classList.contains("popup__input_type_name") ||
+    inputElement.classList.contains("popup__input_type_card-name");
+
+  if (isNameField && inputElement.validity.patternMismatch) {
+    inputElement.setCustomValidity(invalidNameMessage);
+  } else {
+    inputElement.setCustomValidity("");
+  }
+};
+
 const showInputError = (formElement, inputElement, errorMessage, config) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
 
@@ -15,6 +30,8 @@ const hideInputError = (formElement, inputElement, config) => {
 };
 
 const checkInputValidity = (formElement, inputElement, config) => {
+  setInputCustomValidity(inputElement);
+
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage, config);
   } else {
@@ -26,11 +43,22 @@ const hasInvalidInput = (inputList) => {
   return inputList.some((inputElement) => !inputElement.validity.valid);
 };
 
-const toggleButtonState = (inputList, buttonElement, config) => {
-  const shouldDisableButton = hasInvalidInput(inputList);
+const disableSubmitButton = (buttonElement, config) => {
+  buttonElement.disabled = true;
+  buttonElement.classList.add(config.inactiveButtonClass);
+};
 
-  buttonElement.disabled = shouldDisableButton;
-  buttonElement.classList.toggle(config.inactiveButtonClass, shouldDisableButton);
+const enableSubmitButton = (buttonElement, config) => {
+  buttonElement.disabled = false;
+  buttonElement.classList.remove(config.inactiveButtonClass);
+};
+
+const toggleButtonState = (inputList, buttonElement, config) => {
+  if (hasInvalidInput(inputList)) {
+    disableSubmitButton(buttonElement, config);
+  } else {
+    enableSubmitButton(buttonElement, config);
+  }
 };
 
 const setEventListeners = (formElement, config) => {
@@ -60,8 +88,9 @@ export const clearValidation = (formElement, config) => {
   const buttonElement = formElement.querySelector(config.submitButtonSelector);
 
   inputList.forEach((inputElement) => {
+    inputElement.setCustomValidity("");
     hideInputError(formElement, inputElement, config);
   });
 
-  toggleButtonState(inputList, buttonElement, config);
+  disableSubmitButton(buttonElement, config);
 };
