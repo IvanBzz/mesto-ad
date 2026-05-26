@@ -39,7 +39,7 @@ export const createCardElement = (data, userId, handlers) => {
   }
 
   if (handlers.onInfoClick) {
-    infoButton.addEventListener("click", () => handlers.onInfoClick(data._id));
+    infoButton.addEventListener("click", () => handlers.onInfoClick(data));
   } else {
     infoButton.remove();
   }

@@ -1,10 +1,17 @@
 const invalidNameMessage =
   "Разрешены только латинские и кириллические буквы, пробелы и дефис";
+const validNamePattern = "[A-Za-zА-Яа-яЁё\\s\\-]+";
+
+const isNameInput = (inputElement) =>
+  inputElement.classList.contains("popup__input_type_name") ||
+  inputElement.classList.contains("popup__input_type_card-name");
 
 const setInputCustomValidity = (inputElement) => {
-  const isNameField =
-    inputElement.classList.contains("popup__input_type_name") ||
-    inputElement.classList.contains("popup__input_type_card-name");
+  const isNameField = isNameInput(inputElement);
+
+  if (isNameField) {
+    inputElement.pattern = validNamePattern;
+  }
 
   if (isNameField && inputElement.validity.patternMismatch) {
     inputElement.setCustomValidity(invalidNameMessage);
@@ -40,7 +47,10 @@ const checkInputValidity = (formElement, inputElement, config) => {
 };
 
 const hasInvalidInput = (inputList) => {
-  return inputList.some((inputElement) => !inputElement.validity.valid);
+  return inputList.some((inputElement) => {
+    setInputCustomValidity(inputElement);
+    return !inputElement.validity.valid;
+  });
 };
 
 const disableSubmitButton = (buttonElement, config) => {
@@ -88,9 +98,9 @@ export const clearValidation = (formElement, config) => {
   const buttonElement = formElement.querySelector(config.submitButtonSelector);
 
   inputList.forEach((inputElement) => {
-    inputElement.setCustomValidity("");
+    setInputCustomValidity(inputElement);
     hideInputError(formElement, inputElement, config);
   });
 
-  disableSubmitButton(buttonElement, config);
+  toggleButtonState(inputList, buttonElement, config);
 };

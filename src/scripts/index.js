@@ -136,36 +136,24 @@ const renderCard = (cardData, method = "append") => {
   placesWrap[method](cardElement);
 };
 
-function handleInfoClick(cardId) {
-  getCardList()
-    .then((cards) => {
-      const cardData = cards.find((card) => card._id === cardId);
+function handleInfoClick(cardData) {
+  cardInfoTitle.textContent = `Карточка «${cardData.name}»`;
+  cardInfoText.textContent = cardData.likes.length
+    ? "Пользователи, которые поставили лайк"
+    : "Лайков пока нет";
+  cardInfoModalInfoList.replaceChildren(
+    createInfoString("Автор:", cardData.owner.name),
+    createInfoString("Дата создания:", formatDate(new Date(cardData.createdAt))),
+    createInfoString("Лайков:", String(cardData.likes.length)),
+    createInfoString("Идентификатор:", cardData._id)
+  );
+  cardInfoModalUsersList.replaceChildren(
+    ...(cardData.likes.length
+      ? cardData.likes.map((user) => createUserPreview(`${user.name} · ${user.about}`))
+      : [createUserPreview("Пока никто не лайкнул эту карточку")])
+  );
 
-      if (!cardData) {
-        return Promise.reject("Не удалось найти карточку");
-      }
-
-      cardInfoTitle.textContent = `Карточка «${cardData.name}»`;
-      cardInfoText.textContent = cardData.likes.length
-        ? "Пользователи, которые поставили лайк"
-        : "Лайков пока нет";
-      cardInfoModalInfoList.replaceChildren(
-        createInfoString("Автор:", cardData.owner.name),
-        createInfoString("Дата создания:", formatDate(new Date(cardData.createdAt))),
-        createInfoString("Лайков:", String(cardData.likes.length)),
-        createInfoString("Идентификатор:", cardData._id)
-      );
-      cardInfoModalUsersList.replaceChildren(
-        ...(cardData.likes.length
-          ? cardData.likes.map((user) => createUserPreview(`${user.name} · ${user.about}`))
-          : [createUserPreview("Пока никто не лайкнул эту карточку")])
-      );
-
-      openModalWindow(cardInfoModalWindow);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  openModalWindow(cardInfoModalWindow);
 }
 
 function handleLikeClick(cardData, cardElement) {
