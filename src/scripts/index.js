@@ -1,4 +1,4 @@
-import { createCardElement, updateLikeView } from "./components/card.js";
+import { createCardElement, removeCardElement, updateLikeView } from "./components/card.js";
 import { openModalWindow, closeModalWindow, setCloseModalWindowEventListeners } from "./components/modal.js";
 import {
   addCard,
@@ -243,7 +243,7 @@ const handleRemoveCardSubmit = (evt) => {
   renderLoading(removeCardForm, true, buttonTextConfig.remove);
   deleteCard(pendingDeleteCard.cardData._id)
     .then(() => {
-      pendingDeleteCard.cardElement.remove();
+      removeCardElement(pendingDeleteCard.cardElement);
       pendingDeleteCard = null;
       closeModalWindow(removeCardModalWindow);
     })

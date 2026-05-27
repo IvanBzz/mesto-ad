@@ -16,6 +16,10 @@ export const updateLikeView = (cardElement, likes, userId) => {
   likeCount.textContent = likes.length;
 };
 
+export const removeCardElement = (cardElement) => {
+  cardElement.remove();
+};
+
 export const createCardElement = (data, userId, handlers) => {
   const cardElement = getTemplate();
   const likeButton = cardElement.querySelector(".card__like-button");

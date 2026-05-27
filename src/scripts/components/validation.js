@@ -1,22 +1,8 @@
-const invalidNameMessage =
-  "Разрешены только латинские и кириллические буквы, пробелы и дефис";
-const validNamePattern = "[A-Za-zА-Яа-яЁё\\s\\-]+";
-
-const isNameInput = (inputElement) =>
-  inputElement.classList.contains("popup__input_type_name") ||
-  inputElement.classList.contains("popup__input_type_card-name");
-
 const setInputCustomValidity = (inputElement) => {
-  const isNameField = isNameInput(inputElement);
+  inputElement.setCustomValidity("");
 
-  if (isNameField) {
-    inputElement.pattern = validNamePattern;
-  }
-
-  if (isNameField && inputElement.validity.patternMismatch) {
-    inputElement.setCustomValidity(invalidNameMessage);
-  } else {
-    inputElement.setCustomValidity("");
+  if (inputElement.validity.patternMismatch && inputElement.dataset.errorMessage) {
+    inputElement.setCustomValidity(inputElement.dataset.errorMessage);
   }
 };
 
