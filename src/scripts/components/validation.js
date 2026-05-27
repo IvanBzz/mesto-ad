@@ -88,5 +88,5 @@ export const clearValidation = (formElement, config) => {
     hideInputError(formElement, inputElement, config);
   });
 
-  toggleButtonState(inputList, buttonElement, config);
+  disableSubmitButton(buttonElement, config);
 };

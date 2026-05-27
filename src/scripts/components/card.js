@@ -27,6 +27,7 @@ export const createCardElement = (data, userId, handlers) => {
   const infoButton = cardElement.querySelector(".card__control-button_type_info");
   const cardImage = cardElement.querySelector(".card__image");
 
+  cardImage.referrerPolicy = "no-referrer";
   cardImage.src = data.link;
   cardImage.alt = data.name;
   cardElement.querySelector(".card__title").textContent = data.name;
